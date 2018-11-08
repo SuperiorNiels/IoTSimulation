@@ -1,5 +1,6 @@
 
 import numpy as np
+import random
 
 class Agent():
 
@@ -40,32 +41,39 @@ class Agent():
         # When we get here something went wrong, but we give a white color back
         return (255,255,255)
 
-    def update(self, neighbour_fav):
-        influence =  0.25 * neighbour_fav[1] + 0.25 * np.random.uniform(0,1)
-        if neighbour_fav[0] == "ROCK":
-            self.rock = 0.5 * self.rock + influence
-            self.pop = self.pop - influence * 0.5
-            self.techno = self.techno - influence * 0.5
-        elif neighbour_fav[0] == "POP":
-            self.rock = self.rock - influence * 0.5
-            self.pop = 0.5 * self.pop + influence
-            self.techno = self.techno - influence * 0.5
-        elif neighbour_fav[0] == "TECHNO":
-            self.rock = self.rock - influence * 0.5
-            self.pop = self.pop - influence * 0.5
-            self.techno = 0.5 * self.techno + influence
+    def update(self, neighbours):
+        dir = []
+        for i in range(len(neighbours)): dir.append(i)
+        random.shuffle(dir)
 
-        self.rock = max(0, self.rock)
-        self.pop = max(0, self.pop)
-        self.techno = max(0, self.techno)
+        desicion = np.random.uniform(0,1,1)
 
-        if np.random.uniform(0,1,1) < .005:
+        if desicion > 0.05: # 5% change for a cell to have a opinion, thus not updating with neighbour values
+            for i in dir:
+                neighbour_fav = neighbours[i].getFavourite()
+                influence = 0.25 * neighbour_fav[1] + 0.25 * np.random.uniform(0, 1) if self.neighbour_like[i] > 0.5 else 0
+
+                if influence != 0:
+                    if neighbour_fav[0] == "ROCK":
+                        self.rock = 0.5 * self.rock + influence
+                        self.pop = self.pop - influence * 0.5
+                        self.techno = self.techno - influence * 0.5
+                    elif neighbour_fav[0] == "POP":
+                        self.rock = self.rock - influence * 0.5
+                        self.pop = 0.5 * self.pop + influence
+                        self.techno = self.techno - influence * 0.5
+                    elif neighbour_fav[0] == "TECHNO":
+                        self.rock = self.rock - influence * 0.5
+                        self.pop = self.pop - influence * 0.5
+                        self.techno = 0.5 * self.techno + influence
+
+                self.rock = max(0, self.rock)
+                self.pop = max(0, self.pop)
+                self.techno = max(0, self.techno)
+        elif desicion < 0.005: # 0.5% to have a completely new opinion
             values = np.random.uniform(0,1,3)
             values = values / sum(values) if sum(values) != 0 else values
             self.rock = values[0]
             self.pop = values[1]
             self.techno = values[2]
             self.neighbour_like = np.random.uniform(0,1,4)
-
-
-

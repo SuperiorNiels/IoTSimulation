@@ -39,10 +39,8 @@ def updateCells():
             try: neighbours.append(cells[x][temp_y + 1])
             except IndexError: pass
 
-            dir = []
-            for i in range(len(neighbours)): dir.append(i)
-            random.shuffle(dir)
-            for d in dir: buffer[x][y].update(neighbours[d].getFavourite())
+            buffer[x][y].update(neighbours)
+
     cells = buffer
 
 def mqttCallback(msg):
