@@ -1,12 +1,12 @@
 
 import pygame
 import numpy.random as npr
-from Agent import Agent
+from simulation1.Agent import Agent
 import random, time, json, copy, datetime, uuid
-from mqtt import mqtt
+from simulation1.mqtt import mqtt
 
-sim_x = 50        # number of tiles on x as
-sim_y = 50          # number of tiles on y as
+sim_x = 25        # number of tiles on x as
+sim_y = 25          # number of tiles on y as
 cell_width = 10     # 10 pixels per tile
 mqtt = mqtt("broker.hivemq.com",1883)
 
@@ -29,13 +29,11 @@ def updateCells():
         for y in range(sim_y):
             neighbours = []
             temp_x = x if x - 1 != -1 else 1
-            try: neighbours.append(cells[temp_x - 1][y])
-            except IndexError: pass
+            neighbours.append(cells[temp_x - 1][y])
             try: neighbours.append(cells[temp_x + 1][y])
             except IndexError: pass
             temp_y = y if y - 1 != -1 else 1
-            try: neighbours.append(cells[x][temp_y - 1])
-            except IndexError: pass
+            neighbours.append(cells[x][temp_y - 1])
             try: neighbours.append(cells[x][temp_y + 1])
             except IndexError: pass
 
