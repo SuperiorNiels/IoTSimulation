@@ -91,8 +91,7 @@ class Agent():
         # start moving
         if not self.moving:
             target = (0,0)
-            if np.random.uniform(0,1) > 0.2:
-                if(len(neighbours) != 1):
+            if np.random.uniform(0,1) > 0.15 and len(neighbours) != 1:
                     keys = sorted(neighbours.keys())
                     choice = np.random.randint(1, len(keys))
                     counter = 0
@@ -101,7 +100,11 @@ class Agent():
                         counter += 1
                     target = (neighbours[keys[choice]].x, neighbours[keys[choice]].y)
             else:
-                target = (self.x + np.random.randint(-75, 75), self.y + np.random.randint(-75, 75))
+                max_dist = 50
+                target = (self.x + np.random.randint(-max_dist, max_dist), self.y + np.random.randint(-max_dist, max_dist))
 
             self.moving = True
             self.target = target
+
+            if self.target == (0,0):
+                print("wrong!!")

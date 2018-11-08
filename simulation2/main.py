@@ -6,7 +6,7 @@ from simulation2.Agent import Agent
 import random, time, json, copy, datetime, uuid
 from simulation2.mqtt import mqtt
 
-screen_x = 500        # number of tiles on x as
+screen_x = 1000        # number of tiles on x as
 screen_y = 500         # number of tiles on y as
 agents = 100         # number of agents
 mqtt = mqtt("broker.hivemq.com",1883)
@@ -74,8 +74,9 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
 
-        if npr.uniform(0,1) < 0.15: # add new agent with random chance
-            _agents.append(Agent(npr.uniform(0, 1, 3), (npr.randint(screen_x), npr.randint(screen_y))))
+        if len(_agents) < 150: # max agents is 150
+            if npr.uniform(0,1) < 0.15: # add new agent with random chance
+                _agents.append(Agent(npr.uniform(0, 1, 3), (npr.randint(screen_x), npr.randint(screen_y))))
 
         updateCells()
         screen.fill((0,0,0,0))
