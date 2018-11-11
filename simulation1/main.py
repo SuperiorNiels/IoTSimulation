@@ -5,9 +5,9 @@ from simulation1.Agent import Agent
 import random, time, json, copy, datetime, uuid
 from simulation1.mqtt import mqtt
 
-sim_x = 25        # number of tiles on x as
-sim_y = 25          # number of tiles on y as
-cell_width = 10     # 10 pixels per tile
+sim_x = 50        # number of tiles on x as
+sim_y = 50          # number of tiles on y as
+cell_width = 15     # 10 pixels per tile
 mqtt = mqtt("broker.hivemq.com",1883)
 
 Agent()

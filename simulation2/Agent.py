@@ -105,6 +105,3 @@ class Agent():
 
             self.moving = True
             self.target = target
-
-            if self.target == (0,0):
-                print("wrong!!")

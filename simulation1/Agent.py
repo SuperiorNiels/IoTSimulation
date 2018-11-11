@@ -44,11 +44,11 @@ class Agent():
     def update(self, neighbours):
         dir = []
         for i in range(len(neighbours)): dir.append(i)
-        random.shuffle(dir)
+        #random.shuffle(dir)
 
-        desicion = np.random.uniform(0,1,1)
+        decision = np.random.uniform(0,1,1)
 
-        if desicion > 0.05: # 5% change for a cell to have a opinion, thus not updating with neighbour values
+        if decision > 0.05: # 5% change for a cell to have a opinion, thus not updating with neighbour values
             for i in dir:
                 neighbour_fav = neighbours[i].getFavourite()
                 influence = 0.25 * neighbour_fav[1] + 0.25 * np.random.uniform(0, 1) if self.neighbour_like[i] > 0.5 else 0
@@ -70,7 +70,7 @@ class Agent():
                 self.rock = max(0, self.rock)
                 self.pop = max(0, self.pop)
                 self.techno = max(0, self.techno)
-        elif desicion < 0.005: # 0.5% to have a completely new opinion
+        elif decision < 0.005: # 0.5% to have a completely new opinion
             values = np.random.uniform(0,1,3)
             values = values / sum(values) if sum(values) != 0 else values
             self.rock = values[0]
